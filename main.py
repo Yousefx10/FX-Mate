@@ -1,4 +1,12 @@
-# Currency exchange profit calculator with profit table
+# Currency exchange profit calculator with manual table formatting
+
+def print_table(rows):
+    # Print header
+    print(f"{'Profit (EGP)':>12} | {'Rate (EGP/USD)':>15}")
+    print("-" * 30)
+    # Print rows
+    for profit, rate in rows:
+        print(f"{profit:>12} | {rate:>15.4f}")
 
 def main():
     print("Choose case type:")
@@ -9,30 +17,32 @@ def main():
     R = float(input("Enter real exchange rate (EGP per USD): "))
 
     if case == 1:
-        # Case 1: Receiver gets EGP, so you deduct USD
         M = float(input("Enter fixed EGP amount: "))
         P = float(input("Enter desired profit in EGP: "))
         q = R / (1 + P / M)
         print(f"\nSet exchange rate to: {q:.4f} EGP/USD")
 
-        # Extra table for different profit values
-        print("\n--- Profit Table ---")
+        rows = []
         for profit in [5, 10, 20, 50]:
             q_table = R / (1 + profit / M)
-            print(f"Profit {profit:>3} EGP -> Rate: {q_table:.4f}")
+            rows.append((profit, q_table))
+
+        print("\n--- Profit Table ---")
+        print_table(rows)
 
     elif case == 2:
-        # Case 2: Receiver gets USD, so they pay EGP
         U = float(input("Enter fixed USD amount: "))
         P = float(input("Enter desired profit in EGP: "))
         q = R + P / U
         print(f"\nSet exchange rate to: {q:.4f} EGP/USD")
 
-        # Extra table for different profit values
-        print("\n--- Profit Table ---")
+        rows = []
         for profit in [5, 10, 20, 50]:
             q_table = R + profit / U
-            print(f"Profit {profit:>3} EGP -> Rate: {q_table:.4f}")
+            rows.append((profit, q_table))
+
+        print("\n--- Profit Table ---")
+        print_table(rows)
 
     else:
         print("Invalid case type.")
